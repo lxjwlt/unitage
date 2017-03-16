@@ -51,8 +51,9 @@ class Unitage {
 
 function specifyUnit (value, step, units, goOn) {
     let index = 0;
+    let maxIndex = units.length - 1;
 
-    while (value >= step && index < units.length) {
+    while (value >= step && index < maxIndex) {
 
         if (goOn && goOn(value, index) === false) {
             break;
