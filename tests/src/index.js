@@ -30,6 +30,18 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'w');
         });
 
+        it('default run again', function () {
+            let unitage = Unitage(100000000, 10000, ['', 'w', 'y']);
+
+            assert.strictEqual(unitage.number, 1);
+            assert.strictEqual(unitage.unit, 'y');
+
+            unitage.tryMaxUnit();
+
+            assert.strictEqual(unitage.number, 1);
+            assert.strictEqual(unitage.unit, 'y');
+        });
+
         it('1024 unit', function () {
             let unitage = Unitage(1073741824, 1024, ['B', 'KB', 'MB', 'GB']);
 
