@@ -65,7 +65,7 @@ function specifyUnit (value, step, units, goOn) {
 
     return {
         number: value,
-        unit: units[index]
+        unit: units[index] || ''
     };
 }
 
