@@ -21,7 +21,7 @@ describe('src/index.js', function () {
         assert.deepEqual(unit1.units, ['', 'p']);
     });
 
-    describe('@tryMaxUnit', function () {
+    describe('#tryMaxUnit', function () {
 
         it('default', function () {
             let unitage = Unitage(12345678, 10000, ['', 'w', 'y']);
@@ -98,6 +98,22 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.number, 1.4615384615384615);
         });
 
+    });
+
+    describe('#toString', function () {
+
+        it('default', function () {
+            let unitage = Unitage(1012, 1000, ['', 'k']);
+
+            assert.strictEqual(unitage.toString(), '1.012k');
+            assert.strictEqual(String(unitage), '1.012k');
+        });
+
+        it('empty units', function () {
+            let unitage = Unitage(1012, 1, []);
+
+            assert.strictEqual(unitage.toString(), '1012');
+        });
     });
 
 });
