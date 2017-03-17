@@ -26,7 +26,7 @@ class Unitage {
         maxIndex = maxIndex < 0 ? Infinity : maxIndex;
 
         let result = specifyUnit(self.value, self.step, self.units, (value, index) => {
-            return index < maxIndex;
+            return index < maxIndex && value >= self.step;
         });
 
         self.number = result.number;
@@ -53,7 +53,7 @@ function specifyUnit (value, step, units, goOn) {
     let index = 0;
     let maxIndex = units.length - 1;
 
-    while (value >= step && index < maxIndex) {
+    while (index < maxIndex) {
 
         if (goOn && goOn(value, index) === false) {
             break;

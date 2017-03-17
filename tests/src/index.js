@@ -114,6 +114,26 @@ describe('src/index.js', function () {
 
             assert.strictEqual(unitage.toString(), '1012');
         });
+
+        it('specify undefined unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
+
+            assert.strictEqual(unitage.toString(''), '7.849895477294922mb');
+        });
+
+        it('specify low unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
+
+            assert.strictEqual(unitage.toString('b'), '8231212b');
+        });
+
+        it('specify big unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb', 'gb']);
+
+            debugger;
+            assert.strictEqual(unitage.toString('gb'), '0.007665913552045822gb');
+        });
+
     });
 
 });
