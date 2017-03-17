@@ -90,6 +90,14 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'm');
         });
 
+        it('float number', function () {
+            let unitage = Unitage(19, 13, ['', 'n']);
+
+            unitage.tryMaxUnit('n');
+
+            assert.strictEqual(unitage.number, 1.4615384615384615);
+        });
+
     });
 
 });
