@@ -169,4 +169,56 @@ describe('src/index.js', function () {
 
     });
 
+    describe('#setUnit', function () {
+
+        it('default', function () {
+            let unitage = Unitage(1012, 1000, ['', 'k', 'm']);
+
+            assert.strictEqual(unitage.number, 1.012);
+            assert.strictEqual(unitage.unit, 'k');
+
+            unitage.setUnit();
+
+            assert.strictEqual(unitage.number, 1.012);
+            assert.strictEqual(unitage.unit, 'k');
+        });
+
+        it('empty units', function () {
+            let unitage = Unitage(1012, 1, []);
+
+            unitage.setUnit('k');
+
+            assert.strictEqual(unitage.number, 1012);
+            assert.strictEqual(unitage.unit, '');
+        });
+
+        it('specify undefined unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
+
+            unitage.setUnit('');
+
+            assert.strictEqual(unitage.number, 7.849895477294922);
+            assert.strictEqual(unitage.unit, 'mb');
+        });
+
+        it('specify low unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
+
+            unitage.setUnit('b');
+
+            assert.strictEqual(unitage.number, 8231212);
+            assert.strictEqual(unitage.unit, 'b');
+        });
+
+        it('specify big unit', function () {
+            let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb', 'gb']);
+
+            unitage.setUnit('gb');
+
+            assert.strictEqual(unitage.number, 0.007665913552045822);
+            assert.strictEqual(unitage.unit, 'gb');
+        });
+
+    });
+
 });

@@ -18,6 +18,20 @@ class Unitage {
         self.tryMaxUnit();
     }
 
+    setUnit (unit) {
+        let self = this;
+        let result = byUnit.call(self, unit);
+
+        if (result) {
+            self.unit = result.unit;
+            self.number = result.number;
+        }
+    }
+
+    setValue (value) {}
+
+    setNumber (number) {}
+
     tryMaxUnit (unit) {
         let self = this;
 
@@ -46,7 +60,6 @@ class Unitage {
 
         return result ? result.number + result.unit : self.number + self.unit;
     }
-
 
 }
 
