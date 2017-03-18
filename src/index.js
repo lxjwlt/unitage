@@ -33,20 +33,35 @@ class Unitage {
         self.unit = result.unit;
     }
 
+    getNumber (unit) {
+        let self = this;
+        let result = byUnit.call(self, unit);
+
+        return result ? result.number : self.number;
+    }
+
     toString (unit) {
         let self = this;
-        let unitIndex = self.units.indexOf(unit);
+        let result = byUnit.call(self, unit);
 
-        if (typeof unit !== 'undefined' && unitIndex >= 0) {
-
-            let result = specifyUnit(self.value, self.step, self.units,
-                (value, index) => index < unitIndex);
-
-            return result.number + result.unit;
-        }
-
-        return self.number + self.unit;
+        return result ? result.number + result.unit : self.number + self.unit;
     }
+
+
+}
+
+function byUnit (unit) {
+    let self = this;
+    let unitIndex = self.units.indexOf(unit);
+
+    if (typeof unit !== 'undefined' && unitIndex >= 0) {
+
+        return specifyUnit(self.value, self.step, self.units,
+            (value, index) => index < unitIndex);
+
+    }
+
+    return null;
 }
 
 function specifyUnit (value, step, units, goOn) {
