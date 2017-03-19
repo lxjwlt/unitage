@@ -221,4 +221,20 @@ describe('src/index.js', function () {
 
     });
 
+    describe('#setNumber', function () {
+
+        it('specify number', function () {
+            let unitage = Unitage(1001, 1000, ['', 'k']);
+
+            assert.strictEqual(unitage.unit, 'k');
+
+            unitage.setNumber(33);
+
+            assert.strictEqual(unitage.number, 33);
+            assert.strictEqual(unitage.unit, 'k');
+            assert.strictEqual(unitage.value, 33000);
+        });
+
+    });
+
 });

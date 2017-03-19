@@ -28,9 +28,23 @@ class Unitage {
         }
     }
 
-    setValue (value) {}
+    setValue (value) {
+        let self = this;
 
-    setNumber (number) {}
+        self.value = value;
+
+        self.tryMaxUnit();
+    }
+
+    setNumber (number) {
+        let self = this;
+
+        self.number = number;
+
+        let level = self.units.indexOf(self.unit);
+
+        self.value = self.number * Math.pow(self.step, level);
+    }
 
     tryMaxUnit (unit) {
         let self = this;
