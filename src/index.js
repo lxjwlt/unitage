@@ -6,16 +6,18 @@
 
 class Unitage {
 
-    constructor (value, step, units) {
+    constructor (value, units, step) {
         let self = this;
+
+        if (step === 0) {
+            throw('Expected step to be none-zero number.');
+        }
 
         self.value = value;
 
-        self.step = step;
+        initUnits.call(self, units, step);
 
-        self.units = units;
-
-        self.tryMaxUnit();
+        self.tryUnit();
     }
 
     setUnit (unit) {
@@ -41,24 +43,43 @@ class Unitage {
 
         self.number = number;
 
-        let level = self.units.indexOf(self.unit);
+        self.value = number;
 
-        self.value = self.number * Math.pow(self.step, level);
+        for (let unitConfig of self.units) {
+            self.value = self.value * unitConfig.step;
+
+            if (unitConfig.unit === self.unit) {
+                break;
+            }
+        }
     }
 
-    tryMaxUnit (unit) {
+    tryUnit (unit) {
         let self = this;
 
-        let maxIndex = self.units.indexOf(unit);
+        let value = self.value;
 
-        maxIndex = maxIndex < 0 ? Infinity : maxIndex;
+        if (!self.units.length) {
+            self.number = self.value;
+            self.unit = '';
+            return;
+        }
 
-        let result = specifyUnit(self.value, self.step, self.units, (value, index) => {
-            return index < maxIndex && value >= self.step;
-        });
+        let unitConfig = self.unitMap[unit] || self.units[self.units.length - 1];
 
-        self.number = result.number;
-        self.unit = result.unit;
+        let maxIndex = unitConfig.index;
+
+        let targetUnit = self.units.filter((config, i) => {
+            let nextConfig = self.units[i + 1];
+
+            return value >= config.step && (!nextConfig || value < nextConfig.step) && i <= maxIndex ||
+                maxIndex === i && value >= config.step;
+        })[0];
+
+        targetUnit = targetUnit || self.units[0];
+
+        self.number = value / targetUnit.step;
+        self.unit = targetUnit.unit;
     }
 
     getNumber (unit) {
@@ -77,6 +98,77 @@ class Unitage {
 
 }
 
+function checkUnits (units, step) {
+    let map = {};
+
+    for (let i = 0; i < units.length; i++) {
+        let config = units[i];
+
+        if (i === 0 && typeof config !== 'string' && config.step !== 1) {
+            throw('The step of first unit should be 1.');
+        }
+
+        if (typeof config === 'string') {
+            if (!step) {
+                throw('Step should Be number when unit is string.');
+            }
+
+            config = {
+                unit: config
+            };
+        }
+
+        if (typeof config.unit !== 'string') {
+            throw('Expect unit to be string.');
+        }
+
+        if (map[config.unit]) {
+            throw('Unexpected multiple same unit.');
+        }
+
+        map[config.unit] = true;
+    }
+}
+
+function initUnits (units, step) {
+    let self = this;
+    let lastStep = 1;
+
+    checkUnits(units, step);
+
+    self.unitMap = {};
+
+    self.units = units.map((unit, i) => {
+        let config = unit;
+
+        if (typeof unit === 'string') {
+            if (!step) {
+                throw('Step should Be number when unit is string.');
+            }
+
+            config = {
+                unit: unit,
+                step: i === 0 ? 1 : step
+            };
+        }
+
+        if (self.unitMap[config.unit]) {
+            throw('Unexpected multiple same unit.');
+        }
+
+        config = Object.assign({}, config, {
+            index: i,
+            step: config.step * lastStep
+        });
+
+        self.unitMap[config.unit] = config;
+
+        lastStep = config.step;
+
+        return config;
+    });
+}
+
 function byUnit (unit) {
     let self = this;
     let unitIndex = self.units.indexOf(unit);
@@ -91,17 +183,39 @@ function byUnit (unit) {
     return null;
 }
 
-function specifyUnit (value, step, units, goOn) {
+function unitize (value, units, goOn) {
     let index = 0;
     let maxIndex = units.length - 1;
 
     while (index < maxIndex) {
+        let config = units[index];
 
-        if (goOn && goOn(value, index) === false) {
+        if (goOn && goOn(value, index, config) === false) {
             break;
         }
 
-        value = value / step;
+        value = value / config.step;
+        index += 1;
+    }
+
+    return {
+        number: value,
+        unit: units[index] || ''
+    };
+}
+
+function specifyUnit (value, units, goOn) {
+    let index = 0;
+    let maxIndex = units.length - 1;
+
+    while (index < maxIndex) {
+        let config = units[index];
+
+        if (goOn && goOn(value, index, config) === false) {
+            break;
+        }
+
+        value = value / config.step;
         index += 1;
     }
 
