@@ -124,7 +124,7 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'n');
         });
 
-        it('specify step', function () {
+        it('specify step for big number', function () {
             let units = [
                 '',
                 {
@@ -151,6 +151,26 @@ describe('src/index.js', function () {
 
             assert.strictEqual(unitage.number, 123456789000);
             assert.strictEqual(unitage.unit, '');
+
+            unitage.tryUnit('thousand');
+
+            assert.strictEqual(unitage.number, 123456789);
+            assert.strictEqual(unitage.unit, 'thousand');
+
+            unitage.tryUnit('ten thousand');
+
+            assert.strictEqual(unitage.number, 12345678.9);
+            assert.strictEqual(unitage.unit, 'ten thousand');
+
+            unitage.tryUnit('million');
+
+            assert.strictEqual(unitage.number, 123456.789);
+            assert.strictEqual(unitage.unit, 'million');
+
+            unitage.tryUnit('hundred million');
+
+            assert.strictEqual(unitage.number, 1234.56789);
+            assert.strictEqual(unitage.unit, 'hundred million');
         });
 
     });
