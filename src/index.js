@@ -22,11 +22,11 @@ class Unitage {
 
     setUnit (unit) {
         let self = this;
-        let result = byUnit.call(self, unit);
+        let targetUnit = self.unitMap[unit];
 
-        if (result) {
-            self.unit = result.unit;
-            self.number = result.number;
+        if (targetUnit) {
+            self.unit = targetUnit.unit;
+            self.number = self.value / targetUnit.step;
         }
     }
 
