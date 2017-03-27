@@ -199,40 +199,55 @@ describe('src/index.js', function () {
 
     });
 
-    // describe('#toString', function () {
-    //
-    //     it('default', function () {
-    //         let unitage = Unitage(1012, 1000, ['', 'k']);
-    //
-    //         assert.strictEqual(unitage.toString(), '1.012k');
-    //         assert.strictEqual(String(unitage), '1.012k');
-    //     });
-    //
-    //     it('empty units', function () {
-    //         let unitage = Unitage(1012, 1, []);
-    //
-    //         assert.strictEqual(unitage.toString(), '1012');
-    //     });
-    //
-    //     it('specify undefined unit', function () {
-    //         let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
-    //
-    //         assert.strictEqual(unitage.toString(''), '7.849895477294922mb');
-    //     });
-    //
-    //     it('specify low unit', function () {
-    //         let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb']);
-    //
-    //         assert.strictEqual(unitage.toString('b'), '8231212b');
-    //     });
-    //
-    //     it('specify big unit', function () {
-    //         let unitage = Unitage(8231212, 1024, ['b', 'kb', 'mb', 'gb']);
-    //
-    //         assert.strictEqual(unitage.toString('gb'), '0.007665913552045822gb');
-    //     });
-    //
-    // });
+    describe('#toString', function () {
+
+        it('default', function () {
+            let unitage = Unitage(1012, ['', 'k'], 1000);
+
+            assert.strictEqual(unitage.toString(), '1.01k');
+            assert.strictEqual(String(unitage), '1.01k');
+        });
+
+        it('empty units', function () {
+            let unitage = Unitage(1012, [], 1);
+
+            assert.strictEqual(unitage.toString(), '1012');
+        });
+
+        it('specify undefined unit', function () {
+            let unitage = Unitage(8231212, ['b', 'kb', 'mb'], 1024);
+
+            assert.strictEqual(unitage.toString(''), '7.85mb');
+        });
+
+        it('specify low unit', function () {
+            let unitage = Unitage(8231212, ['b', 'kb', 'mb'], 1024);
+
+            assert.strictEqual(unitage.toString('b'), '8231212b');
+            assert.strictEqual(unitage.toString('kb'), '8038.29kb');
+        });
+
+        it('specify big unit', function () {
+            let unitage = Unitage(8231212, ['b', 'kb', 'mb', 'gb'], 1024);
+
+            assert.strictEqual(unitage.toString('gb'), '0.01gb');
+        });
+
+        it('specify digits', function () {
+            let unitage = Unitage(1234567890, ['', 'k', 'm', 'g'], 1000);
+
+            assert.strictEqual(unitage.toString('m', 10), '1234.56789m');
+            assert.strictEqual(unitage.toString('m', 3), '1234.568m');
+        });
+
+        it('specify digits and no units', function () {
+            let unitage = Unitage(1234567890, ['', 'k', 'm', 'g'], 1000);
+
+            assert.strictEqual(unitage.toString(10), '1.23456789g');
+            assert.strictEqual(unitage.toString(3), '1.235g');
+        });
+
+    });
     //
     // describe('#getNumber', function () {
     //

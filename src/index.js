@@ -89,13 +89,29 @@ class Unitage {
         return result ? result.number : self.number;
     }
 
-    toString (unit) {
+    toString (unit, maxDigits) {
         let self = this;
-        let result = byUnit.call(self, unit);
 
-        return result ? result.number + result.unit : self.number + self.unit;
+        if (typeof unit === 'number') {
+            maxDigits = unit;
+            unit = null;
+        }
+
+        let targetUnit = self.unitMap[unit];
+
+        maxDigits = !maxDigits && maxDigits !== 0 ? 2 : maxDigits;
+
+        return targetUnit ?
+            round(self.value / targetUnit.step, maxDigits) + targetUnit.unit :
+            round(self.number, maxDigits) + self.unit;
     }
 
+}
+
+function round (value, digits) {
+    let num = Math.pow(10, digits);
+
+    return Math.round(value * num) / num;
 }
 
 function checkUnits (units, step) {
@@ -181,27 +197,6 @@ function byUnit (unit) {
     }
 
     return null;
-}
-
-function unitize (value, units, goOn) {
-    let index = 0;
-    let maxIndex = units.length - 1;
-
-    while (index < maxIndex) {
-        let config = units[index];
-
-        if (goOn && goOn(value, index, config) === false) {
-            break;
-        }
-
-        value = value / config.step;
-        index += 1;
-    }
-
-    return {
-        number: value,
-        unit: units[index] || ''
-    };
 }
 
 function specifyUnit (value, units, goOn) {
