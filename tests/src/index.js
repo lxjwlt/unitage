@@ -124,8 +124,37 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'n');
         });
 
+        it('specify step', function () {
+            let units = [
+                '',
+                {
+                    unit: 'thousand',
+                    step: 1000
+                },
+                'ten thousand',
+                {
+                    unit: 'million',
+                    step: 100
+                },
+                {
+                    unit: 'hundred million',
+                    step: 100
+                }
+            ];
+
+            let unitage = Unitage(123456789000, units, 10);
+
+            assert.strictEqual(unitage.number, 1234.56789);
+            assert.strictEqual(unitage.unit, 'hundred million');
+
+            unitage.tryUnit('');
+
+            assert.strictEqual(unitage.number, 123456789000);
+            assert.strictEqual(unitage.unit, '');
+        });
+
     });
-    //
+
     // describe('#toString', function () {
     //
     //     it('default', function () {
