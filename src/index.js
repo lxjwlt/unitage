@@ -85,9 +85,10 @@ class Unitage {
 
     getNumber (unit) {
         let self = this;
-        let result = byUnit.call(self, unit);
 
-        return result ? result.number : self.number;
+        let targetUnit = self.unitMap[unit];
+
+        return targetUnit ? self.value / targetUnit.step : self.number;
     }
 
     toString (unit, maxDigits) {
