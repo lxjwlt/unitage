@@ -28,6 +28,13 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'w');
         });
 
+        it('negative value', function () {
+            let unitage = Unitage(-1234567890, ['', 'k'], 1000);
+
+            assert.strictEqual(unitage.number, -1234567.89);
+            assert.strictEqual(unitage.unit, 'k');
+        });
+
         it('min unit', function () {
             let unitage = Unitage(12345678, ['', 'w', 'y'], 10000);
 
@@ -248,6 +255,7 @@ describe('src/index.js', function () {
         });
 
     });
+
     //
     // describe('#getNumber', function () {
     //

@@ -71,9 +71,10 @@ class Unitage {
 
         let targetUnit = self.units.filter((config, i) => {
             let nextConfig = self.units[i + 1];
+            let absValue = Math.abs(value);
 
-            return value >= config.step && (!nextConfig || value < nextConfig.step) && i <= maxIndex ||
-                maxIndex === i && value >= config.step;
+            return absValue >= config.step && (!nextConfig || absValue < nextConfig.step) && i <= maxIndex ||
+                maxIndex === i && absValue >= config.step;
         })[0];
 
         targetUnit = targetUnit || self.units[0];
