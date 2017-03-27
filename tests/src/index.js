@@ -254,6 +254,13 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.toString(3), '1.235g');
         });
 
+        it('negative number', function () {
+            let unitage = Unitage(-1234567890, ['', 'k', 'm', 'g'], 1000);
+
+            assert.strictEqual(unitage.toString(10), '-1.23456789g');
+            assert.strictEqual(unitage.toString(3), '-1.235g');
+        });
+
     });
 
     //
