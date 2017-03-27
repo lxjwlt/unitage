@@ -173,6 +173,30 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.unit, 'hundred million');
         });
 
+        it('specify step for small number', function () {
+            let units = [
+                '',
+                {
+                    unit: 'thousand',
+                    step: 1000
+                },
+                {
+                    unit: 'hundred million',
+                    step: 100000
+                }
+            ];
+
+            let unitage = Unitage(1234, units, 10);
+
+            assert.strictEqual(unitage.number, 1.234);
+            assert.strictEqual(unitage.unit, 'thousand');
+
+            unitage.tryUnit('hundred million');
+
+            assert.strictEqual(unitage.number, 1.234);
+            assert.strictEqual(unitage.unit, 'thousand');
+        });
+
     });
 
     // describe('#toString', function () {
