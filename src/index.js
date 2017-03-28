@@ -218,9 +218,15 @@ function specifyUnit (value, units, goOn) {
     };
 }
 
-function creator (value, step, units) {
-    return new Unitage(value, step, units);
+function creator (value, units, step) {
+    return new Unitage(value, units, step);
 }
+
+creator.define = function (units, step) {
+    return function (value) {
+        return new Unitage(value, units, step);
+    }
+};
 
 creator.Constructor = Unitage;
 

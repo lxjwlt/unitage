@@ -10,6 +10,7 @@ describe('src/index.js', function () {
 
         assert.isOk(unitage);
         assert.strictEqual(unitage.value, 428);
+        assert.strictEqual(String(unitage), '4.28m');
     });
 
     it('class creator', function () {
@@ -17,6 +18,17 @@ describe('src/index.js', function () {
 
         assert.isOk(unitage);
         assert.strictEqual(unitage.value, 5551);
+        assert.strictEqual(String(unitage), '504.64p');
+    });
+
+    describe('@define', function () {
+
+        it('default', function () {
+            let storage = Unitage.define(['', 'k', 'm'], 1024);
+
+            assert.strictEqual(storage(67834).toString(), '66.24k');
+        });
+
     });
 
     describe('#tryUnit', function () {
