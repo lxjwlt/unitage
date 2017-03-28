@@ -45,15 +45,9 @@ class Unitage {
 
         self.number = number;
 
-        self.value = number;
+        let targetUnit = self.unitMap[self.unit];
 
-        for (let unitConfig of self.units) {
-            self.value = self.value * unitConfig.step;
-
-            if (unitConfig.unit === self.unit) {
-                break;
-            }
-        }
+        self.value = self.number * targetUnit.step;
     }
 
     tryUnit (unit) {
