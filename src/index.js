@@ -183,41 +183,6 @@ function initUnits (units, step) {
     });
 }
 
-function byUnit (unit) {
-    let self = this;
-    let unitIndex = self.units.indexOf(unit);
-
-    if (typeof unit !== 'undefined' && unitIndex >= 0) {
-
-        return specifyUnit(self.value, self.step, self.units,
-            (value, index) => index < unitIndex);
-
-    }
-
-    return null;
-}
-
-function specifyUnit (value, units, goOn) {
-    let index = 0;
-    let maxIndex = units.length - 1;
-
-    while (index < maxIndex) {
-        let config = units[index];
-
-        if (goOn && goOn(value, index, config) === false) {
-            break;
-        }
-
-        value = value / config.step;
-        index += 1;
-    }
-
-    return {
-        number: value,
-        unit: units[index] || ''
-    };
-}
-
 function creator (value, units, step) {
     return new Unitage(value, units, step);
 }
