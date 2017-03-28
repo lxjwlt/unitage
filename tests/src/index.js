@@ -308,6 +308,18 @@ describe('src/index.js', function () {
             assert.strictEqual(unitage.getNumber('gb'), 0.007665913552045822);
         });
 
+        it('specify digits', function () {
+            let unitage = Unitage(10.11111, ['', 't'], 3);
+
+            assert.strictEqual(unitage.getNumber('', 2), 10.11);
+        });
+
+        it('specify digits', function () {
+            let unitage = Unitage(10, ['', 't'], 3);
+
+            assert.strictEqual(unitage.getNumber(2), 3.33);
+        });
+
     });
 
 

@@ -79,12 +79,21 @@ class Unitage {
         self.unit = targetUnit.unit;
     }
 
-    getNumber (unit) {
+    getNumber (unit, maxDigits) {
         let self = this;
+
+        if (typeof unit === 'number') {
+            maxDigits = unit;
+            unit = null;
+        }
 
         let targetUnit = self.unitMap[unit];
 
-        return targetUnit ? self.value / targetUnit.step : self.number;
+        maxDigits = !maxDigits && maxDigits !== 0 ? Infinity : maxDigits;
+
+        let number = targetUnit ? self.value / targetUnit.step : self.number;
+
+        return round(number, maxDigits);
     }
 
     toString (unit, maxDigits) {
@@ -107,6 +116,11 @@ class Unitage {
 }
 
 function round (value, digits) {
+
+    if (digits > 17) {
+        return value;
+    }
+
     let num = Math.pow(10, digits);
 
     return Math.round(value * num) / num;
