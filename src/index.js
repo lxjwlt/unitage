@@ -35,7 +35,9 @@ class Unitage {
 
         self.value = value;
 
-        self.tryMaxUnit();
+        let targetUnit = self.unitMap[self.unit];
+
+        self.number = self.value / targetUnit.step;
     }
 
     setNumber (number) {
