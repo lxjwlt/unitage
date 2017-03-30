@@ -9,9 +9,8 @@ class Unitage {
     constructor (value, units, step) {
         let self = this;
 
-        if (step === 0) {
-            throw('Expected step to be none-zero number.');
-        }
+        checkStep(step);
+        checkUnits(units, step);
 
         self.value = value;
 
@@ -115,6 +114,21 @@ class Unitage {
 
 }
 
+function checkStep (step) {
+
+    if (!step && step !== 0) {
+        return;
+    }
+
+    if (Math.floor(step) !== step) {
+        throw('Expect step to be integer.');
+    }
+
+    if (step <= 0) {
+        throw('Expected step to be Integer greater than 0.');
+    }
+}
+
 function round (value, digits) {
 
     if (digits > 17) {
@@ -132,19 +146,22 @@ function checkUnits (units, step) {
     for (let i = 0; i < units.length; i++) {
         let config = units[i];
 
-        if (i === 0 && typeof config !== 'string' && config.step !== 1) {
+        if (i === 0 && typeof config === 'object' && config.step !== 1) {
             throw('The step of first unit should be 1.');
         }
 
         if (typeof config === 'string') {
-            if (!step) {
+            if (!step && step !== 0) {
                 throw('Step should Be number when unit is string.');
             }
 
             config = {
-                unit: config
+                unit: config,
+                step: step
             };
         }
+
+        checkStep(config.step);
 
         if (typeof config.unit !== 'string') {
             throw('Expect unit to be string.');
@@ -162,26 +179,16 @@ function initUnits (units, step) {
     let self = this;
     let lastStep = 1;
 
-    checkUnits(units, step);
-
     self.unitMap = {};
 
     self.units = units.map((unit, i) => {
         let config = unit;
 
         if (typeof unit === 'string') {
-            if (!step) {
-                throw('Step should Be number when unit is string.');
-            }
-
             config = {
                 unit: unit,
                 step: i === 0 ? 1 : step
             };
-        }
-
-        if (self.unitMap[config.unit]) {
-            throw('Unexpected multiple same unit.');
         }
 
         config = Object.assign({}, config, {

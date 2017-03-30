@@ -21,6 +21,34 @@ describe('src/index.js', function () {
         assert.strictEqual(String(unitage), '504.64p');
     });
 
+    it('error: step <= 0', function () {
+        assert.throws(Unitage.bind(null, 0, [], 0), 'Expected step to be Integer greater than 0.');
+        assert.throws(Unitage.bind(null, 0, [], -2), 'Expected step to be Integer greater than 0.');
+    });
+
+    it('error: first step not 1', function () {
+        let units = [{
+            unit: '',
+            step: 3
+        }];
+        assert.throws(Unitage.bind(null, 0, units, 4), 'The step of first unit should be 1.');
+    });
+
+    it('error: step empty', function () {
+        assert.throws(Unitage.bind(null, 0, ['', 'b']), 'Step should Be number when unit is string.');
+    });
+
+    it('error: unit not string', function () {
+        assert.throws(Unitage.bind(null, 0, [{step: 1}], 4), 'Expect unit to be string.');
+        assert.throws(Unitage.bind(null, 0, ['', {unit: null}], 4), 'Expect unit to be string.');
+    });
+
+    it('error: multiple same units', function () {
+        assert.throws(Unitage.bind(null, 0, ['', ''], 4), 'Unexpected multiple same unit.');
+        assert.throws(Unitage.bind(null, 0, ['', {unit: ''}], 4), 'Unexpected multiple same unit.');
+        assert.throws(Unitage.bind(null, 0, [{unit: 'k', step: 1}, {unit: 'k'}], 4), 'Unexpected multiple same unit.');
+    });
+
     describe('@define', function () {
 
         it('default', function () {
