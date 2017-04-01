@@ -23,8 +23,6 @@ class Unitage {
         let self = this;
         let targetUnit = self.unitMap[unit];
 
-        checkUnit(unit);
-
         if (targetUnit) {
             self.unit = targetUnit.unit;
             self.number = self.value / targetUnit.step;
