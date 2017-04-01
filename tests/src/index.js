@@ -26,6 +26,11 @@ describe('src/index.js', function () {
         assert.throws(Unitage.bind(null, 0, [], -2), 'Expected step to be Integer greater than 0.');
     });
 
+    it('error: step is float number', function () {
+        assert.throws(Unitage.bind(null, 0, [], 0.123), 'Expect step to be integer.');
+        assert.throws(Unitage.bind(null, 0, [], 1.3), 'Expect step to be integer.');
+    });
+
     it('error: first step not 1', function () {
         let units = [{
             unit: '',
