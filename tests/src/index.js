@@ -384,4 +384,28 @@ describe('src/index.js', function () {
 
     });
 
+    describe('#setUnit', function () {
+
+        it('specify unit', function () {
+            let unitage = Unitage(1001, ['', 'k', 'm'], 1000);
+
+            unitage.setUnit('m');
+
+            assert.strictEqual(unitage.number, 0.001001);
+            assert.strictEqual(unitage.unit, 'm');
+            assert.strictEqual(unitage.value, 1001);
+        });
+
+        it('undefined unit', function () {
+            let unitage = Unitage(1001, ['', 'k', 'm'], 1000);
+
+            unitage.setUnit('z');
+
+            assert.strictEqual(unitage.number, 1.001);
+            assert.strictEqual(unitage.unit, 'k');
+            assert.strictEqual(unitage.value, 1001);
+        });
+
+    });
+
 });

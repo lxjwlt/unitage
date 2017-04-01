@@ -23,6 +23,8 @@ class Unitage {
         let self = this;
         let targetUnit = self.unitMap[unit];
 
+        checkUnit(unit);
+
         if (targetUnit) {
             self.unit = targetUnit.unit;
             self.number = self.value / targetUnit.step;
@@ -140,6 +142,12 @@ function round (value, digits) {
     return Math.round(value * num) / num;
 }
 
+function checkUnit (unit) {
+    if (typeof unit !== 'string') {
+        throw('Expect unit to be string.');
+    }
+}
+
 function checkUnits (units, step) {
     let map = {};
 
@@ -163,9 +171,7 @@ function checkUnits (units, step) {
 
         checkStep(config.step);
 
-        if (typeof config.unit !== 'string') {
-            throw('Expect unit to be string.');
-        }
+        checkUnit(config.unit);
 
         if (map[config.unit]) {
             throw('Unexpected multiple same unit.');
