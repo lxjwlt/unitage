@@ -62,11 +62,11 @@ level(13000).toString(); // '13thousand'
 level(4300000).toString(); // '4.3million'
 ```
 
-实例属性：
+### Status
 
-* value: 实际数值
-* number: 当前显示数值
-* unit: 当前单位
+* value: actual value
+* number: display value
+* unit: current unit
 
 ```javascript
 const unitage = require('unitage');
@@ -80,7 +80,7 @@ num.number === 1.171875;
 num.unit === 'kb';
 ```
 
-实例方法：
+### Methods
 
 * `toString([unit=this.unit, maxDigits=2])`
 
@@ -89,14 +89,14 @@ num.unit === 'kb';
 
     const num = unitage(1200, ['b', 'kb', 'mb'], 1024);
 
-    String(num) === (num + ''); // '1.17kb'
-    num.toString(); // '1.17kb'
-    num.toString(Infinity); // '1.171875kb'
+    String(num) === (num + '') === num.toString(); // '1.17kb'
+    num.toString(4); // '1.1719kb'
+
     num.toString('mb'); // '0mb'
     num.toString('mb', Infinity); // '0.0011444091796875mb'
     ```
 
-* `tryUnit(unit)`: 尝试最大的单位或指定的单位，确保显示数值不会小于1：
+* `tryUnit(unit)`: Try the max Unit while ensure the display value is not less than 1
 
     ```javascript
     const unitage = require('unitage');
@@ -114,7 +114,7 @@ num.unit === 'kb';
     num.toString(); // '1.17kb'
     ```
 
-* `setUnit(unit)`: 强制设置单元
+* `setUnit(unit)`: specify unit
 
     ```javascript
     const unitage = require('unitage');
@@ -128,7 +128,7 @@ num.unit === 'kb';
     num.toString(Infinity); // '0.0011444091796875mb'
     ```
 
-* `setValue(value)`: 设置数值
+* `setValue(value)`: specify the actual value
 
     ```javascript
     const unitage = require('unitage');
