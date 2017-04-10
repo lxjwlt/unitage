@@ -1,6 +1,6 @@
 {
   "name": "unitage",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "unit transform",
   "main": "src/index.js",
   "scripts": {
@@ -17,9 +17,20 @@
     "level"
   ],
   "author": "lxjwlt",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": ">= 6.9.5"
+  },
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxjwlt/unitage"
+  },
+  "homepage": "https://github.com/lxjwlt/unitage"
 }
