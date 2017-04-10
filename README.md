@@ -2,7 +2,7 @@
 
 ![Node version][node-image] [![NPM version][npm-image]][npm-url]
 
-Unit conversion to shorten the length of the long number:
+Unit conversion to shorten long number:
 
 ```javascript
 const unitage = require('unitage');
@@ -10,6 +10,12 @@ const unitage = require('unitage');
 const num = new unitage(100000, ['', 'k'], 1000);
 
 num.toString(); // '100k'
+```
+
+## Installation
+
+```
+npm install unitage -S
 ```
 
 ## Usage
@@ -90,13 +96,13 @@ num.unit === 'kb';
     const num = unitage(1200, ['b', 'kb', 'mb'], 1024);
 
     String(num) === (num + '') === num.toString(); // '1.17kb'
-    num.toString(4); // '1.1719kb'
 
+    num.toString(4); // '1.1719kb'
     num.toString('mb'); // '0mb'
     num.toString('mb', Infinity); // '0.0011444091796875mb'
     ```
 
-* `tryUnit(unit)`: Try the max Unit while ensure the display value is not less than 1
+* `tryUnit(unit)`: Try the max unit while ensure the display value is not less than 1
 
     ```javascript
     const unitage = require('unitage');
@@ -142,7 +148,7 @@ num.unit === 'kb';
     num.toString(); // '1kb'
     ```
 
-* `setNumber(value)`: 设置显示数值
+* `setNumber(value)`: specify the display value
 
     ```javascript
     const unitage = require('unitage');
@@ -162,7 +168,7 @@ num.unit === 'kb';
     num.unit; // 'kb'
     ```
 
-* `getNumber(unit=this.unit, maxDigits=2)`: 获取特定单元下的显示数值
+* `getNumber(unit=this.unit, maxDigits=2)`: get the display value
 
     ```javascript
     const unitage = require('unitage');
@@ -171,7 +177,7 @@ num.unit === 'kb';
 
     String(num); // '1.17kb'
 
-    num.getNumber(); // 1.17
+    num.getNumber() === num.number; // 1.17
 
     num.getNumber('b'); // 1200
 
